@@ -12,8 +12,18 @@ export const AuthApi = api.injectEndpoints({
                 };
             },
             invalidatesTags:["Auth"]
+        }),
+        signIn:build.mutation({
+            query(body) {
+                return {
+                    url:"/auth/login",
+                    method:"POST",
+                    body
+                }
+            },
+            invalidatesTags:["Auth"]
         })
     })
 })
 
-export const {useSignUpMutation} = AuthApi
+export const {useSignUpMutation,useSignInMutation} = AuthApi

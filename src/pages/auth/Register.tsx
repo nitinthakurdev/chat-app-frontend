@@ -1,10 +1,10 @@
 import { useFormik } from 'formik';
 import { Eye, EyeOff, Lock, Mail, MessageSquare, User } from 'lucide-react';
 import { FC, ReactElement, useState } from 'react';
+import { Link } from 'react-router-dom';
 // local imports
 import { RegisterValidation } from '@/validations/AuthValidation';
 import { Input } from '@/constants/ui.lazy';
-import { Link } from 'react-router-dom';
 import { AuthImagePattern } from '@/constants/Components.lazy';
 
 const Register: FC = (): ReactElement => {
@@ -29,7 +29,7 @@ const Register: FC = (): ReactElement => {
                                 <MessageSquare className='size-6 text-primary' />
                             </div>
                             <h1 className='text-2xl font-bold mt-2 ' >Create Account</h1>
-                            <p className='text-base-content/60' >Get started with your  free Accoutn</p>
+                            <p className='text-base-content/60' >Get started with your  free Account</p>
                         </div>
                     </div>
 
