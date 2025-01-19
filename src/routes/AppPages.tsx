@@ -1,5 +1,6 @@
-import Header from '@/components/Header';
 import { FC, ReactElement } from 'react';
+// local imports
+import Header from '@/components/Header';
 
 const AppPages: FC = (): ReactElement => {
   return (
@@ -10,4 +11,4 @@ const AppPages: FC = (): ReactElement => {
   );
 };
 
-export default AppPages
+export default AppPages;
