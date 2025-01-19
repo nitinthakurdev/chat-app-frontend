@@ -10,7 +10,8 @@ export default defineConfig({
       "@":"src/",
       "@pages":"src/pages/",
       "@components":"src/components/",
-      "@store":"src/store/"
+      "@store":"src/store/",
+      "@services":"src/services"
     }
   }
 });
