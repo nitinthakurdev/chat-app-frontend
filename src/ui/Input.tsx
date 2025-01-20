@@ -2,7 +2,7 @@ import { IInputProp } from "@/types/ui.type";
 import { FC, ReactElement } from "react";
 
 
-const Input:FC<IInputProp> = ({type,className,placeholder,id,name,value,onChange,onBlur}):ReactElement => {
+const Input:FC<IInputProp> = ({type,className,placeholder,id,name,value,onChange,onBlur,hidden}):ReactElement => {
     return <input
         type={type}
         className={className}
@@ -12,6 +12,7 @@ const Input:FC<IInputProp> = ({type,className,placeholder,id,name,value,onChange
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        hidden={hidden}
     />
 };
 

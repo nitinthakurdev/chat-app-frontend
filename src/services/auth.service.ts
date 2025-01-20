@@ -1,9 +1,10 @@
 import { api } from "@/store/api/Auth.api";
+import { IAuthResponse, ILoginData, IRegisterData } from "@/types/Auth.types";
 
 
 export const AuthApi = api.injectEndpoints({
     endpoints:(build)=>({
-        signUp:build.mutation({
+        signUp:build.mutation<IAuthResponse,IRegisterData>({
             query(body) {
                 return {
                     url:"/auth/create",
@@ -13,7 +14,7 @@ export const AuthApi = api.injectEndpoints({
             },
             invalidatesTags:["Auth"]
         }),
-        signIn:build.mutation({
+        signIn:build.mutation<IAuthResponse,ILoginData>({
             query(body) {
                 return {
                     url:"/auth/login",
@@ -24,6 +25,6 @@ export const AuthApi = api.injectEndpoints({
             invalidatesTags:["Auth"]
         })
     })
-})
+});
 
-export const {useSignUpMutation,useSignInMutation} = AuthApi
+export const {useSignUpMutation,useSignInMutation} = AuthApi;

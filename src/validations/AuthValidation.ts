@@ -4,6 +4,7 @@ export const RegisterValidation = yup.object({
     username:yup.string().min(2).required("Username must be Required"),
     email:yup.string().email("Enter valid Email address").required("Email must be required"),
     password:yup.string().min(4).max(12).required("Password must be required"),
+    image: yup.mixed().required('A file is required'),
 })
 
 export const LoginValidation = yup.object({
