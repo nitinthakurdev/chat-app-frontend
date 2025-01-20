@@ -10,7 +10,7 @@ import { useSignInMutation } from '@/services/auth.service';
 
 const Login: FC = (): ReactElement => {
    const [showPassword, setShowPassword] = useState<boolean>(false);
-   const[signIn,{isLoading}] = useSignInMutation()
+   const[signIn,{isLoading,}] = useSignInMutation()
       const { errors, values, handleBlur, handleChange, handleSubmit, touched } = useFormik({
           initialValues: { username: "", password: ""},
           validationSchema: LoginValidation,
@@ -88,7 +88,7 @@ const Login: FC = (): ReactElement => {
             <div className='text-center' >
                 <p className='text-base-content/60'>
                 Don't have an account?{" "}
-                <Link to="/register" >Sign Un</Link>
+                <Link to="/register" >Sign Up</Link>
                 </p>
             </div>
         </div>

@@ -7,43 +7,41 @@ import { RegisterValidation } from '@/validations/AuthValidation';
 import { Input } from '@/constants/ui.lazy';
 import { AuthImagePattern } from '@/constants/Components.lazy';
 import {  useSignUpMutation } from '@/services/auth.service';
-import { IRegisterData } from '@/types/Auth.types';
+import { checkImage, readAsBase64 } from '@/utils/image.utils';
 
 const Register: FC = (): ReactElement => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [image, setImage] = useState<string | null>(null);
-    const [signUp,{isLoading}] = useSignUpMutation()
+    const [signUp,{isLoading}] = useSignUpMutation();
     const { errors, values, handleBlur, handleChange, handleSubmit, touched,setFieldValue } = useFormik({
-        initialValues: { username: "", email: "", password: "",image:null },
+        initialValues: { username: "", email: "", password: "",image:"" },
         validationSchema: RegisterValidation,
         onSubmit: async (value) => {
             try {
-                const formData = new FormData();
-                formData.append("username",value.username)
-                formData.append("email",value.email)
-                formData.append("password",value.password)
-                if(value.image){
-                    formData.append("image",value.image)
-                }
-                const data = await signUp(formData as unknown as IRegisterData)
-                console.log(data)
+               
+                 const data = await signUp(value).unwrap()
+                console.log("data",data)
                 // toast.success(data.data?.message as string)
             } catch (error) {
-                console.log(error)
+                console.log("error",error)
                 // toast.error(error)
             }
             
         }
-    })
-    const handleFileChnage = (e:ChangeEvent<HTMLInputElement>) => {
+    });
+
+    console.log(values)
+
+    const handleFileChnage = async (e:ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files;
         if(file){
-            setFieldValue('image',file[0])
-            const reader = new FileReader();
-            reader.onload = () =>{
-                setImage(reader.result as string)
-            };
-            reader.readAsDataURL(file[0])
+            const isValid = checkImage(file[0],'image')
+            if(isValid){
+                const dataImage: string | ArrayBuffer | null = await readAsBase64(file[0])
+                setFieldValue('image',dataImage)
+                setImage(`${dataImage}`)
+            }
+            
         }
     }
     
