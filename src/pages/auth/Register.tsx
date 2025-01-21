@@ -8,29 +8,27 @@ import { Input } from '@/constants/ui.lazy';
 import { AuthImagePattern } from '@/constants/Components.lazy';
 import {  useSignUpMutation } from '@/services/auth.service';
 import { checkImage, readAsBase64 } from '@/utils/image.utils';
+import toast from 'react-hot-toast';
 
 const Register: FC = (): ReactElement => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [image, setImage] = useState<string | null>(null);
     const [signUp,{isLoading}] = useSignUpMutation();
+
     const { errors, values, handleBlur, handleChange, handleSubmit, touched,setFieldValue } = useFormik({
         initialValues: { username: "", email: "", password: "",image:"" },
         validationSchema: RegisterValidation,
         onSubmit: async (value) => {
             try {
-               
                  const data = await signUp(value).unwrap()
                 console.log("data",data)
-                // toast.success(data.data?.message as string)
-            } catch (error) {
-                console.log("error",error)
-                // toast.error(error)
+                toast.success(data.data.message)
+            } catch (error:any) {
+                toast.error(error.data.message || "something went Wrong" )
             }
             
         }
     });
-
-    console.log(values)
 
     const handleFileChnage = async (e:ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files;
