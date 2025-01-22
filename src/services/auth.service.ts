@@ -22,7 +22,7 @@ export const AuthApi = api.injectEndpoints({
                 }
             },
             invalidatesTags:["Auth"]
-        })
+        }),
     })
 });
 
