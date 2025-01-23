@@ -1,48 +1,49 @@
 import { useFormik } from 'formik';
 import { Eye, EyeOff, Lock, Mail, MessageSquare, Upload, User } from 'lucide-react';
 import { ChangeEvent, FC, ReactElement, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 // local imports
 import { RegisterValidation } from '@/validations/AuthValidation';
 import { Input } from '@/constants/ui.lazy';
 import { AuthImagePattern } from '@/constants/Components.lazy';
-import {  useSignUpMutation } from '@/services/auth.service';
+import { useSignUpMutation } from '@/services/auth.service';
 import { checkImage, readAsBase64 } from '@/utils/image.utils';
 import toast from 'react-hot-toast';
 
 const Register: FC = (): ReactElement => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [image, setImage] = useState<string | null>(null);
-    const [signUp,{isLoading}] = useSignUpMutation();
+    const [signUp, { isLoading }] = useSignUpMutation();
+    const navigate: NavigateFunction = useNavigate()
 
-    const { errors, values, handleBlur, handleChange, handleSubmit, touched,setFieldValue } = useFormik({
-        initialValues: { username: "", email: "", password: "",image:"" },
+    const { errors, values, handleBlur, handleChange, handleSubmit, touched, setFieldValue } = useFormik({
+        initialValues: { username: "", email: "", password: "", image: "" },
         validationSchema: RegisterValidation,
-        onSubmit: async (value) => {
+        onSubmit: async (value): Promise<void> => {
             try {
-                 const data = await signUp(value).unwrap()
-                console.log("data",data)
-                toast.success(data.data.message)
-            } catch (error:any) {
-                toast.error(error.data.message || "something went Wrong" )
+                const data = await signUp(value).unwrap();
+                toast.success(data.data.message);
+                navigate("/")
+            } catch (error: any) {
+                toast.error(error.data.message || "something went Wrong")
             }
-            
+
         }
     });
 
-    const handleFileChnage = async (e:ChangeEvent<HTMLInputElement>) => {
+    const handleFileChnage = async (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files;
-        if(file){
-            const isValid = checkImage(file[0],'image')
-            if(isValid){
+        if (file) {
+            const isValid = checkImage(file[0], 'image')
+            if (isValid) {
                 const dataImage: string | ArrayBuffer | null = await readAsBase64(file[0])
-                setFieldValue('image',dataImage)
+                setFieldValue('image', dataImage)
                 setImage(`${dataImage}`)
             }
-            
+
         }
     }
-    
+
 
     return (
         <div className='min-h-screen grid lg:grid-cols-2'>
@@ -147,7 +148,7 @@ const Register: FC = (): ReactElement => {
                             {touched.image && errors.image && <p>{errors.image}</p>}
 
                         </div>
-                       {image && <div >
+                        {image && <div >
                             <img src={image} alt='preview' className='h-16 w-16 rounded-full object-cover' />
                         </div>}
                         <button type='submit' className='btn btn-primary w-full' disabled={isLoading} >

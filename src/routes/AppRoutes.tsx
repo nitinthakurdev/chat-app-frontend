@@ -1,10 +1,10 @@
 import { RouteObject, useRoutes } from "react-router-dom";
-import { FC, lazy, LazyExoticComponent, Suspense } from "react";
+import { FC, lazy, LazyExoticComponent, ReactNode, Suspense } from "react";
 // local imports
-import { Login, PageNotFound, Register } from "@/constants/Pages.lazy";
+import { Home, Login, PageNotFound, Profile, Register } from "@/constants/Pages.lazy";
 
 
-const AppPages: LazyExoticComponent<FC> = lazy(() => import("./AppPages"));
+const ProtectedRoute: LazyExoticComponent<FC<{ children: ReactNode }>> = lazy(() => import("./ProtectedRoute"));
 
 
 export const AppRoutes = () => {
@@ -19,10 +19,13 @@ export const AppRoutes = () => {
             path: "/register",
             element: <Suspense><Register /></Suspense>
         },
-
         {
             path: "/",
-            element: <Suspense><AppPages /></Suspense>
+            element: <Suspense><ProtectedRoute><Home /></ProtectedRoute></Suspense>
+        },
+        {
+            path: "/profile",
+            element: <Suspense><ProtectedRoute><Profile /></ProtectedRoute></Suspense>
         },
         {
             path: "/*",
