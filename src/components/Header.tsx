@@ -1,17 +1,21 @@
 import { useLogoutUserMutation } from "@/services/auth.service";
+import { logout } from "@/store/slices/LogedinUser";
 import { LogOut, MessageSquare, Settings, User } from "lucide-react";
 import { FC, ReactElement } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const Header: FC = (): ReactElement => {
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogout = async (): Promise<void> => {
     try {
       const data = await logoutUser('').unwrap()
       toast.success(data.message)
+      dispatch(logout())
       navigate("/login")
     } catch (error: any) {
       toast.error(error.data.message || "something went Wrong")

@@ -10,3 +10,4 @@ export const Register:LazyExoticComponent<FC> = lazy(()=>import("@pages/auth/Reg
 // user pages
 export const Home:LazyExoticComponent<FC> = lazy(()=>import("@pages/user/Home"));
 export const Profile:LazyExoticComponent<FC> = lazy(()=>import("@pages/user/Profile"));
+export const Settings:LazyExoticComponent<FC> = lazy(()=>import("@pages/user/Settings"));

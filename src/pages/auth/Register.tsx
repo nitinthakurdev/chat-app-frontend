@@ -22,7 +22,7 @@ const Register: FC = (): ReactElement => {
         onSubmit: async (value): Promise<void> => {
             try {
                 const data = await signUp(value).unwrap();
-                toast.success(data.data.message);
+                toast.success(data.message);
                 navigate("/")
             } catch (error: any) {
                 toast.error(error.data.message || "something went Wrong")

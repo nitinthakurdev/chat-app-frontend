@@ -5,7 +5,8 @@ import { ILogedinUserSlice } from "@/types/redux.type";
 const initialState:ILogedinUserSlice = {
     email:null,
     username:null,
-    profilePic:null
+    profilePic:null,
+    userTheme:localStorage.getItem("usert")
 }
 
 const LogedInUserSlice = createSlice({
@@ -17,7 +18,11 @@ const LogedInUserSlice = createSlice({
             state.profilePic = action.payload.profilePic;
             state.username = action.payload.username
         },
-        logoutUser : (state)=>{
+        setTheme : (state,action:PayloadAction<string>) => {
+            localStorage.setItem("usert",action.payload)
+            state.userTheme = action.payload
+        },
+        logout : (state)=>{
             state.email = null;
             state.profilePic = null;
             state.username = null;
@@ -25,6 +30,6 @@ const LogedInUserSlice = createSlice({
     },
 });
 
-export const  {setdata} = LogedInUserSlice.actions
+export const  {setdata,logout,setTheme} = LogedInUserSlice.actions
 
 export default LogedInUserSlice;
