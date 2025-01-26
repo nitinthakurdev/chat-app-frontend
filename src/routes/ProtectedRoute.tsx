@@ -7,25 +7,27 @@ import { useDispatch } from 'react-redux';
 import { setdata } from '@/store/slices/LogedinUser';
 
 const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
-    const { data,isLoading} = useGetLogedInUserQuery("");
+    const { data, isLoading } = useGetLogedInUserQuery("");
     const dispatch = useDispatch()
-    
-    useEffect(()=>{
-        if(data){
+
+    useEffect(() => {
+        if (data) {
             dispatch(setdata(data?.user))
         }
-    },[data])
+    }, [data])
 
-    if(isLoading){
+    if (isLoading) {
         return <Loader />
     }
 
     if (data) {
-        return (<>
-        <Header/>
-        {children}
-        </>)
-    }else{
+        return (
+            <>
+                <Header />
+                {children}
+            </>
+        )
+    } else {
         return <><Navigate to="/login" /></>
     }
 };

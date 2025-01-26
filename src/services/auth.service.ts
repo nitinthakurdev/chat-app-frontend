@@ -43,7 +43,12 @@ export const AuthApi = api.injectEndpoints({
                     method:"PATCH",
                     body
                 }
-            }
+            },
+            invalidatesTags:["Auth"]
+        }),
+        getAllUser:build.query({
+            query:()=>"/auth/all-users",
+            providesTags:["Auth"]
         })
     })
 });
@@ -53,5 +58,6 @@ export const {
     useSignInMutation,
     useGetLogedInUserQuery,
     useLogoutUserMutation,
-    useUpdateProfileMutation
+    useUpdateProfileMutation,
+    useGetAllUserQuery
 } = AuthApi;
