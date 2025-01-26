@@ -3,11 +3,16 @@ import { api } from "@/store/api/Auth.api";
 
  const MessageApi = api.injectEndpoints({
     endpoints:(build) => ({
-        getMessages:build.query({
-            query:(id:string) => `/messages/get-messages/${id}`,
-            providesTags:["Message"]
+        getMessages:build.mutation({
+            query(id){
+                return {
+                    url:`/messages/get-messages/${id}`,
+                    method:"GET",
+                }
+            },
+            invalidatesTags:["Message"]
         }),
     }),
 });
 
-export const {useGetMessagesQuery} = MessageApi;
+export const {useGetMessagesMutation} = MessageApi;

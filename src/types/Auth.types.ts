@@ -3,6 +3,10 @@ export interface ISelectedUsers {
     selectedUser:IAllUserResponse | null
 }
 
+export interface IChatUser {
+    selectedUser:IAllUserResponse
+}
+
 export interface IAllUserResponse {
     _id:string;
     username:string;

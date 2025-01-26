@@ -1,14 +1,11 @@
-import { ChatContainer, NoChatSelected, SideBar } from '@/constants/Components.lazy'
-import { useGetMessagesQuery } from '@/services/message.service';
-import { IAllUserResponse } from '@/types/Auth.types'
-import { FC, ReactElement, useState } from 'react'
+import { ChatContainer, NoChatSelected, SideBar } from '@/constants/Components.lazy';
+import { IAllUserResponse } from '@/types/Auth.types';
+import { FC, ReactElement, useState } from 'react';
+
 
 const Home: FC = (): ReactElement => {
   const [selectedUser,setSelectedUser] = useState<IAllUserResponse | null>(null);
-  console.log(selectedUser)
-  const {data} = useGetMessagesQuery("6793b2a5289cb49b35b10f90");
 
-  console.log(data)
   
   return (
     <div className="h-screen bg-base-200 ">
@@ -17,12 +14,12 @@ const Home: FC = (): ReactElement => {
           <div className="flex h-full rounded-lg overflow-hidden">
             <SideBar setSelectedUser={setSelectedUser} selectedUser={selectedUser} />
 
-            {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
+            {!selectedUser ? <NoChatSelected /> : <ChatContainer selectedUser={selectedUser}  />}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
