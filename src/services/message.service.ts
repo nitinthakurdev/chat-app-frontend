@@ -12,7 +12,17 @@ import { api } from "@/store/api/Auth.api";
             },
             invalidatesTags:["Message"]
         }),
+        sendMessage:build.mutation({
+            query({id,body}) {
+                return {
+                    url:`/messages/send-messages/${id}`,
+                    method:"POST",
+                    body
+                }
+            },
+            invalidatesTags:["Message"]
+        })
     }),
 });
 
-export const {useGetMessagesMutation} = MessageApi;
+export const {useGetMessagesMutation,useSendMessageMutation} = MessageApi;

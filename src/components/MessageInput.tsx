@@ -1,9 +1,11 @@
+import { useSendMessageMutation } from "@/services/message.service";
 import { IChatUser } from "@/types/Auth.types";
 import { checkImage, readAsBase64 } from "@/utils/image.utils";
 import { Image, Send, X } from "lucide-react";
 import { ChangeEvent, FC, FormEvent, ReactElement, useRef, useState } from "react";
 
 const MessageInput: FC<IChatUser> = ({ selectedUser }): ReactElement => {
+  const [sendMessage,{isLoading}] = useSendMessageMutation();
   const [text, setText] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -22,9 +24,17 @@ const MessageInput: FC<IChatUser> = ({ selectedUser }): ReactElement => {
   const removeImage = () => {
     setImagePreview("")
   }
-
-  const handleSendMessage = (e: FormEvent) => {
+  
+  const handleSendMessage = async(e: FormEvent) => {
     e.preventDefault()
+    try {
+      const res = await sendMessage({id:selectedUser._id,body:{text,img:imagePreview}}).unwrap()
+      console.log(res)
+      setImagePreview("")
+      setText("")
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -77,7 +87,7 @@ const MessageInput: FC<IChatUser> = ({ selectedUser }): ReactElement => {
         <button
           type="submit"
           className="btn btn-sm btn-circle"
-          disabled={!text.trim() && !imagePreview}
+          disabled={!text.trim() && !imagePreview || isLoading}
         >
           <Send size={22} />
         </button>

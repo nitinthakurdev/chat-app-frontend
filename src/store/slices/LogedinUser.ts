@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ILogedinUserSlice } from "@/types/redux.type";
 
 const initialState:ILogedinUserSlice = {
+    _id:null,
     email:null,
     username:null,
     profilePic:null,
@@ -14,6 +15,7 @@ const LogedInUserSlice = createSlice({
     initialState,
     reducers:{
         setdata : (state,action:PayloadAction<ILogedinUserSlice>)=> {
+            state._id = action.payload._id;
             state.email = action.payload.email;
             state.profilePic = action.payload.profilePic;
             state.username = action.payload.username
