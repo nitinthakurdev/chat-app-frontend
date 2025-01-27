@@ -16,6 +16,7 @@ const Header: FC = (): ReactElement => {
       const data = await logoutUser('').unwrap()
       toast.success(data.message)
       dispatch(logout())
+      sessionStorage.removeItem("id")
       navigate("/login")
     } catch (error: any) {
       toast.error(error.data.message || "something went Wrong")

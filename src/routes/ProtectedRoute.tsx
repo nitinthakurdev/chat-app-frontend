@@ -13,6 +13,7 @@ const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
     useEffect(() => {
         if (data) {
             dispatch(setdata(data?.user))
+            sessionStorage.setItem("id",data?.user?._id)
         }
     }, [data])
 

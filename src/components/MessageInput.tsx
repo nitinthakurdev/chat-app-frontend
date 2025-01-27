@@ -32,6 +32,7 @@ const MessageInput: FC<IChatUser> = ({ selectedUser }): ReactElement => {
       console.log(res)
       setImagePreview("")
       setText("")
+      if(fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
       console.log(error)
     }

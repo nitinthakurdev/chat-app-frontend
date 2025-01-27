@@ -2,12 +2,12 @@ import { useFormik } from 'formik';
 import { Eye, EyeOff, Lock, MessageSquare, User } from 'lucide-react';
 import { FC, ReactElement, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 // local  imports
 import { AuthImagePattern } from '@/constants/Components.lazy';
 import { Input } from '@/constants/ui.lazy';
 import { LoginValidation } from '@/validations/AuthValidation';
 import { useSignInMutation } from '@/services/auth.service';
-import toast from 'react-hot-toast';
 
 const Login: FC = (): ReactElement => {
     const navigate = useNavigate();
