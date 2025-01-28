@@ -1,10 +1,11 @@
 import { ChatContainer, NoChatSelected, SideBar } from '@/constants/Components.lazy';
 import { IAllUserResponse } from '@/types/Auth.types';
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 
 
 const Home: FC = (): ReactElement => {
   const [selectedUser,setSelectedUser] = useState<IAllUserResponse | null>(null);
+
 
   
   return (
