@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import { Header, Loader } from '@/constants/Components.lazy';
 import { useDispatch } from 'react-redux';
 import { setdata } from '@/store/slices/LogedinUser';
-import { getOnlineUser, setupSocketconnection } from '@/sockets/sockets.service';
+import { socket } from '@/sockets/sockets.service';
 
 const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
     const { data, isLoading } = useGetLogedInUserQuery("");
@@ -16,8 +16,7 @@ const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
         if (data) {
             dispatch(setdata(data?.user))
             sessionStorage.setItem("id",data?.user?._id)
-            setupSocketconnection();
-            getOnlineUser();
+            socket.emit("loginuser",data?.user?._id)
         }
     }, [data])
 
