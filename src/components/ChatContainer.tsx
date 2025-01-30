@@ -5,11 +5,12 @@ import { ChatHeader, MessageInput, MessageSkeletons } from "@/constants/Componen
 import { useGetMessagesMutation } from "@/services/message.service";
 import { useSelector } from "react-redux";
 import { formatMessageTime } from "@/utils/utils";
+import { socket } from "@/sockets/sockets.service";
 
 const ChatContainer: FC<IChatUser> = ({ selectedUser }): ReactElement => {
 
   const [getMessages, { isLoading }] = useGetMessagesMutation();
-  const [messages, setmessage] = useState<IMessageResponse[] | []>([]);
+  const [messages, setmessage] = useState<IMessageResponse[]>([]);
   const { logedInUser } = useSelector((state: any) => state);
 
   const Getmessages = async (id: string) => {
@@ -25,6 +26,14 @@ const ChatContainer: FC<IChatUser> = ({ selectedUser }): ReactElement => {
   useEffect(() => {
     Getmessages(selectedUser._id)
   }, [selectedUser]);
+
+  useEffect(()=>{
+    socket.on("newMessage",(msg)=>{
+      if(msg.sender_id !== logedInUser._id) return;
+      setmessage((prevMessages) => [...prevMessages, msg]);
+    })
+    return () => {socket.off("newMessage")}
+  },[])
 
   if (isLoading) return (
     <div>

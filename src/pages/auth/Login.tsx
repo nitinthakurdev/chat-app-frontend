@@ -8,7 +8,6 @@ import { AuthImagePattern } from '@/constants/Components.lazy';
 import { Input } from '@/constants/ui.lazy';
 import { LoginValidation } from '@/validations/AuthValidation';
 import { useSignInMutation } from '@/services/auth.service';
-import { setupSocketconnection } from '@/sockets/sockets.service';
 
 const Login: FC = (): ReactElement => {
     const navigate = useNavigate();
@@ -22,7 +21,6 @@ const Login: FC = (): ReactElement => {
             try {
                 const data = await signIn(value).unwrap();
                 toast.success(data.message)
-                setupSocketconnection()
                 navigate("/")
             } catch (error:any) {
                 toast.error(error.data?.message || "something went wrong")
