@@ -1,0 +1,18 @@
+# Ignore node_modules and Bun cache
+node_modules
+bun.lockb
+bun-cache
+
+# Ignore build outputs (optional)
+dist
+
+# Ignore Git and environment files
+.git
+.gitignore
+.env
+.DS_Store
+
+# Ignore logs and other unnecessary files
+logs
+npm-debug.log
+yarn-error.log
