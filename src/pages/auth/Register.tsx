@@ -9,7 +9,6 @@ import { AuthImagePattern } from '@/constants/Components.lazy';
 import { useSignUpMutation } from '@/services/auth.service';
 import { checkImage, readAsBase64 } from '@/utils/image.utils';
 import toast from 'react-hot-toast';
-import { setupSocketconnection } from '@/sockets/sockets.service';
 
 const Register: FC = (): ReactElement => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -24,7 +23,6 @@ const Register: FC = (): ReactElement => {
             try {
                 const data = await signUp(value).unwrap();
                 toast.success(data.message);
-                setupSocketconnection()
                 navigate("/")
             } catch (error: any) {
                 toast.error(error.data.message || "something went Wrong")

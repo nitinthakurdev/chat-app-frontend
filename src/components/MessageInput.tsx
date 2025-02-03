@@ -1,11 +1,14 @@
 import { useSendMessageMutation } from "@/services/message.service";
+import { handleMessage } from "@/store/slices/DataGetSlice";
 import { IChatUser } from "@/types/Auth.types";
 import { checkImage, readAsBase64 } from "@/utils/image.utils";
 import { Image, Send, X } from "lucide-react";
 import { ChangeEvent, FC, FormEvent, ReactElement, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const MessageInput: FC<IChatUser> = ({ selectedUser }): ReactElement => {
   const [sendMessage,{isLoading}] = useSendMessageMutation();
+  const dispatch = useDispatch();
   const [text, setText] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -20,6 +23,7 @@ const MessageInput: FC<IChatUser> = ({ selectedUser }): ReactElement => {
       }
     }
   }
+  
 
   const removeImage = () => {
     setImagePreview("")
@@ -32,6 +36,7 @@ const MessageInput: FC<IChatUser> = ({ selectedUser }): ReactElement => {
       console.log(res)
       setImagePreview("")
       setText("")
+      dispatch(handleMessage(1))
       if(fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
       console.log(error)

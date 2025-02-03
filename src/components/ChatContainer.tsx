@@ -1,4 +1,4 @@
-import { FC, ReactElement, useEffect, useState } from "react";
+import { FC, ReactElement, useEffect, useRef, useState } from "react";
 // local imports
 import { IChatUser, IMessageResponse } from "@/types/Auth.types";
 import { ChatHeader, MessageInput, MessageSkeletons } from "@/constants/Components.lazy";
@@ -11,12 +11,15 @@ const ChatContainer: FC<IChatUser> = ({ selectedUser }): ReactElement => {
 
   const [getMessages, { isLoading }] = useGetMessagesMutation();
   const [messages, setmessage] = useState<IMessageResponse[]>([]);
-  const { logedInUser } = useSelector((state: any) => state);
+  const { logedInUser,DataGetSlice } = useSelector((state: any) => state);
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const [count,setCount] = useState<boolean>(true)
 
   const Getmessages = async (id: string) => {
     try {
       const res = await getMessages(id).unwrap();
       setmessage(res.data)
+      setCount(false)
     } catch (error) {
       console.log(error)
     }
@@ -25,17 +28,23 @@ const ChatContainer: FC<IChatUser> = ({ selectedUser }): ReactElement => {
 
   useEffect(() => {
     Getmessages(selectedUser._id)
-  }, [selectedUser]);
+  }, [selectedUser,DataGetSlice.sendMessage]);
 
   useEffect(()=>{
     socket.on("newMessage",(msg)=>{
-      if(msg.sender_id !== logedInUser._id) return;
+      if(msg.sender_id === logedInUser._id) return;
       setmessage((prevMessages) => [...prevMessages, msg]);
     })
     return () => {socket.off("newMessage")}
   },[])
 
-  if (isLoading) return (
+  useEffect(() => {
+    if (messageEndRef.current && messages) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+  if (isLoading && count) return (
     <div>
       <ChatHeader selectedUser={selectedUser} />
       <MessageSkeletons />
@@ -51,7 +60,7 @@ const ChatContainer: FC<IChatUser> = ({ selectedUser }): ReactElement => {
       <div className="flex-1 overflow-y-auto p-4 space-y-4" >
         {
           messages.map((message: IMessageResponse) => (
-            <div key={message._id} className={`chat ${message.sender_id === logedInUser._id ? "chat-end" : "chat-start"}`} >
+            <div key={message._id} ref={messageEndRef} className={`chat ${message.sender_id === logedInUser._id ? "chat-end" : "chat-start"}`} >
               <div className="chat-image avatar" >
                 <div className="size-10 rounded-full border" >
                   <img src={message.sender_id === logedInUser._id ? logedInUser.profilePic?.image_Url : selectedUser.profilePic.image_Url} alt="" />

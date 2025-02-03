@@ -1,17 +1,11 @@
 import { ChatContainer, NoChatSelected, SideBar } from '@/constants/Components.lazy';
-import { socket } from '@/sockets/sockets.service';
 import { IAllUserResponse } from '@/types/Auth.types';
-import { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useState } from 'react';
 
 
 const Home: FC = (): ReactElement => {
   const [selectedUser,setSelectedUser] = useState<IAllUserResponse | null>(null);
 
-useEffect(()=>{
-  socket.on('test',(data)=>{
-    console.log(data)
-  })
-},[])
   
   return (
     <div className="h-screen bg-base-200 ">
