@@ -21,7 +21,7 @@ const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
                 console.log("connected")
               })
 
-              socket.emit("loginUsers",data.user._id)
+              
         }
     }, [data])
 
