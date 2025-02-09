@@ -10,7 +10,7 @@ const ChatHeader: FC<IChatUser> = ({ selectedUser }): ReactElement => {
                     {/* Avatar */}
                     <div className="avatar">
                         <div className="size-10 rounded-full relative">
-                            <img src={selectedUser.profilePic.image_Url || "/avatar.png"} alt={selectedUser.username} />
+                            <img src={selectedUser.profilePic.image_Url } alt={selectedUser.username} />
                         </div>
                     </div>
 

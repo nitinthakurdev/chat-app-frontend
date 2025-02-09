@@ -21,8 +21,17 @@ import { api } from "@/store/api/Auth.api";
                 }
             },
             invalidatesTags:["Message"]
-        })
+        }),
+        getGroupMessages:build.mutation({
+            query(id){
+                return {
+                    url:`/messages/group-messages/${id}`,
+                    method:"GET",
+                }
+            },
+            invalidatesTags:["Message"]
+        }),
     }),
 });
 
-export const {useGetMessagesMutation,useSendMessageMutation} = MessageApi;
+export const {useGetMessagesMutation,useSendMessageMutation,useGetGroupMessagesMutation} = MessageApi;

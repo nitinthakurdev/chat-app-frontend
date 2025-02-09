@@ -1,18 +1,23 @@
+import { IGroupResponse } from "./group.types";
+
 export interface IImage {
     image_Url:string,
     image_id:string,
 }
 
 export interface ISelectedUsers {
-    setSelectedUser:(val:any)=>void;
-    selectedUser:IAllUserResponse | null
+    setSelectedUser:(val:IAllUserResponse | null)=>void;
+    selectedUser:IAllUserResponse | null;
+    setSelectGroup:(val:IGroupResponse | null)=>void;
+    selectGroup:IGroupResponse | null;
 }
 
 export interface IChatUser {
-    selectedUser:IAllUserResponse
+    selectedUser:IAllUserResponse 
 }
 
 export interface IAllUserResponse {
+    type: "user";
     _id:string;
     username:string;
     email:string;
