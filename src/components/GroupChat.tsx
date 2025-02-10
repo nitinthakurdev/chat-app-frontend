@@ -38,8 +38,11 @@ const GroupChat:FC<IGroupChatProp> = ({selectedGroup}):ReactElement => {
 
   useEffect(()=>{
     socket.on("newMessage",(msg)=>{
+    
       if(msg.receiver_id !== selectedGroup._id) return;
-      setmessage((prevMessages) => [...prevMessages, msg]);
+      else{
+        setmessage((prevMessages) => [...prevMessages, msg]);
+      }
     })
     return () => {socket.off("newMessage")}
   },[])

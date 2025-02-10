@@ -11,9 +11,9 @@ const ChatContainer: FC<IChatUser> = ({ selectedUser }): ReactElement => {
 
   const [getMessages, { isLoading }] = useGetMessagesMutation();
   const [messages, setmessage] = useState<IMessageResponse[]>([]);
-  const { logedInUser,DataGetSlice } = useSelector((state: any) => state);
+  const { logedInUser, DataGetSlice } = useSelector((state: any) => state);
   const messageEndRef = useRef<HTMLDivElement | null>(null);
-  const [count,setCount] = useState<boolean>(true)
+  const [count, setCount] = useState<boolean>(true);
 
   const Getmessages = async (id: string) => {
     try {
@@ -28,15 +28,17 @@ const ChatContainer: FC<IChatUser> = ({ selectedUser }): ReactElement => {
 
   useEffect(() => {
     Getmessages(selectedUser._id)
-  }, [selectedUser,DataGetSlice.sendMessage]);
+  }, [selectedUser, DataGetSlice.sendMessage]);
 
-  useEffect(()=>{
-    socket.on("newMessage",(msg)=>{
-      if(msg.sender_id === logedInUser._id) return;
-      setmessage((prevMessages) => [...prevMessages, msg]);
+  useEffect(() => {
+    socket.on("newMessage", (msg) => {
+      if (msg.sender_id !== selectedUser._id) return;
+      else {
+        setmessage((prevMessages) => [...prevMessages, msg]);
+      }
     })
-    return () => {socket.off("newMessage")}
-  },[])
+    return () => { socket.off("newMessage") }
+  }, [])
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
